@@ -1,0 +1,20 @@
+PODS:
+  - GoogleAds-IMA-iOS-SDK (3.14.5)
+  - GSPlayer (0.2.26)
+
+DEPENDENCIES:
+  - GoogleAds-IMA-iOS-SDK (~> 3.14.5)
+  - GSPlayer
+
+SPEC REPOS:
+  trunk:
+    - GoogleAds-IMA-iOS-SDK
+    - GSPlayer
+
+SPEC CHECKSUMS:
+  GoogleAds-IMA-iOS-SDK: b088674002266c5638e73d10696c8b13872ee15e
+  GSPlayer: 1ee7c282d6e6125ca9c0c684d91b8a31512ccfe6
+
+PODFILE CHECKSUM: 63e67221476ee192e1bc926e06fdbd679fa3e882
+
+COCOAPODS: 1.12.1
