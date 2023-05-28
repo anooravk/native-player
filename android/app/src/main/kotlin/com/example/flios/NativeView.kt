@@ -137,7 +137,6 @@ internal class NativeView(
         val url = creationParams as Map<String?, Any?>?
          contentUri = Uri.parse(url?.get("videoURL") as String?)
         adTagUri =Uri.parse(url?.get("adURL") as String?)
-
 //            Uri.parse("https://pubads.g.doubleclick.net/gampad/ads?iu=/21775744923/external/single_preroll_skippable&sz=640x480&ciu_szs=300x250%2C728x90&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=&pmad=4&video_duration=9000&vpos=preroll%2Cmidroll%2Cpostroll&preroll=1&postroll=1&pod=enabled&mridx=enabled")
 
         println("myddddddddd=${contentUri.toString()}")

@@ -80,7 +80,7 @@
                     }
                 },
                 {
-                    "source": "/Users/mac/.gradle/caches/transforms-3/02282ed9b1c5b7477535d5e73f7d1022/transformed/jetified-exoplayer-ui-2.18.5/res/values-v21/values-v21.xml",
+                    "source": "/Users/mac/.gradle/caches/transforms-3/0d041eedc5d1eab0356645ef1ea30ab5/transformed/jetified-exoplayer-ui-2.18.7/res/values-v21/values-v21.xml",
                     "from": {
                         "startLines": "2,3",
                         "startColumns": "4,4",

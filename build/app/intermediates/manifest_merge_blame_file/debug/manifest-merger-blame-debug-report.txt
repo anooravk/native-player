@@ -85,17 +85,17 @@
 76            android:name="flutterEmbedding"
 77            android:value="2" />
 78        <meta-data
-78-->[com.google.android.exoplayer:extension-ima:2.18.5] /Users/mac/.gradle/caches/transforms-3/544ecca21b85445b031aedc478a09a23/transformed/jetified-extension-ima-2.18.5/AndroidManifest.xml:25:9-27:36
+78-->[com.google.android.exoplayer:extension-ima:2.18.7] /Users/mac/.gradle/caches/transforms-3/3d4715f5efbdf05f62cfa921769dbe14/transformed/jetified-extension-ima-2.18.7/AndroidManifest.xml:25:9-27:36
 79            android:name="com.google.android.gms.ads.AD_MANAGER_APP"
-79-->[com.google.android.exoplayer:extension-ima:2.18.5] /Users/mac/.gradle/caches/transforms-3/544ecca21b85445b031aedc478a09a23/transformed/jetified-extension-ima-2.18.5/AndroidManifest.xml:26:13-69
+79-->[com.google.android.exoplayer:extension-ima:2.18.7] /Users/mac/.gradle/caches/transforms-3/3d4715f5efbdf05f62cfa921769dbe14/transformed/jetified-extension-ima-2.18.7/AndroidManifest.xml:26:13-69
 80            android:value="true" />
-80-->[com.google.android.exoplayer:extension-ima:2.18.5] /Users/mac/.gradle/caches/transforms-3/544ecca21b85445b031aedc478a09a23/transformed/jetified-extension-ima-2.18.5/AndroidManifest.xml:27:13-33
+80-->[com.google.android.exoplayer:extension-ima:2.18.7] /Users/mac/.gradle/caches/transforms-3/3d4715f5efbdf05f62cfa921769dbe14/transformed/jetified-extension-ima-2.18.7/AndroidManifest.xml:27:13-33
 81        <meta-data
-81-->[com.google.android.exoplayer:extension-ima:2.18.5] /Users/mac/.gradle/caches/transforms-3/544ecca21b85445b031aedc478a09a23/transformed/jetified-extension-ima-2.18.5/AndroidManifest.xml:28:9-30:69
+81-->[com.google.android.exoplayer:extension-ima:2.18.7] /Users/mac/.gradle/caches/transforms-3/3d4715f5efbdf05f62cfa921769dbe14/transformed/jetified-extension-ima-2.18.7/AndroidManifest.xml:28:9-30:69
 82            android:name="com.google.android.gms.version"
-82-->[com.google.android.exoplayer:extension-ima:2.18.5] /Users/mac/.gradle/caches/transforms-3/544ecca21b85445b031aedc478a09a23/transformed/jetified-extension-ima-2.18.5/AndroidManifest.xml:29:13-58
+82-->[com.google.android.exoplayer:extension-ima:2.18.7] /Users/mac/.gradle/caches/transforms-3/3d4715f5efbdf05f62cfa921769dbe14/transformed/jetified-extension-ima-2.18.7/AndroidManifest.xml:29:13-58
 83            android:value="@integer/google_play_services_version" />
-83-->[com.google.android.exoplayer:extension-ima:2.18.5] /Users/mac/.gradle/caches/transforms-3/544ecca21b85445b031aedc478a09a23/transformed/jetified-extension-ima-2.18.5/AndroidManifest.xml:30:13-66
+83-->[com.google.android.exoplayer:extension-ima:2.18.7] /Users/mac/.gradle/caches/transforms-3/3d4715f5efbdf05f62cfa921769dbe14/transformed/jetified-extension-ima-2.18.7/AndroidManifest.xml:30:13-66
 84
 85        <uses-library
 85-->[androidx.window:window:1.0.0] /Users/mac/.gradle/caches/transforms-3/11357441e07ade20e702a53cb93f0212/transformed/jetified-window-1.0.0/AndroidManifest.xml:25:9-27:40

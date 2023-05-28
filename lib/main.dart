@@ -1,4 +1,5 @@
 
+import 'package:flios/dummy.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -108,13 +109,24 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
         height: height,
         url: currentUrl,
     );
-
+    int _selectedIndex = 0;
     List<String> contentUrls=[
       "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WhatCarCanYouGetForAGrand.mp4",
       "https://storage.googleapis.com/gvabox/media/samples/stock.mp4",
       "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WhatCarCanYouGetForAGrand.mp4",
       "https://storage.googleapis.com/gvabox/media/samples/stock.mp4",
     ];
+
+    void _onItemTapped(int index) {
+      this.viewPlayerController.pauseVideo();
+      setState(() {
+        _selectedIndex = index;
+      });
+      if(_selectedIndex!=0){
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>DummyFile()));
+      }
+    }
+
    var adUrl="https://pubads.g.doubleclick.net/gampad/ads?iu=/21775744923/external/single_preroll_skippable&sz=640x480&ciu_szs=300x250%2C728x90&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=&pmad=4&video_duration=9000&vpos=preroll%2Cmidroll%2Cpostroll&preroll=1&postroll=1&pod=enabled&mridx=enabled";
     return Scaffold(
       appBar: isNormalScreen
@@ -122,6 +134,24 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
               title: Text("Video plugin"),
             )
           : null,
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex, //New
+        onTap: _onItemTapped,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.menu),
+            label: 'Menu',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.camera_alt),
+            label: 'Camera',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat),
+            label: 'Chats',
+          ),
+        ],
+      ),
       body: ListView.builder(
         itemCount: 1,
         itemBuilder: (BuildContext context, int index) {
@@ -137,20 +167,51 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton(onPressed: (){
-                    setState(() {
-                      currentIndex--;
-                      currentUrl=contentUrls[currentIndex%contentUrls.length];
-                    });
-                    print(currentUrl);
-                  }, child: Text("Previous")),
+                    if(Platform.isAndroid) {
+                          setState(() {
+                            currentIndex--;
+                            currentUrl =
+                                contentUrls[currentIndex % contentUrls.length];
+                            this
+                                .viewPlayerController
+                                .loadpre(currentUrl, adUrl);
+                          });
+                          print(currentUrl);
+                        }else{
+                      setState(() {
+                        currentIndex--;
+                        currentUrl =
+                        contentUrls[currentIndex % contentUrls.length];
+                        this
+                            .viewPlayerController
+                            .prev(currentUrl.toString(),adUrl.toString());
+                      });
+                      print(currentUrl);
+                    }
+                      }, child: Text("Previous")),
                   ElevatedButton(onPressed: (){
-                    setState(() {
-                      currentIndex++;
-                      currentUrl=contentUrls[currentIndex%contentUrls.length];
-                      this.viewPlayerController.loadnew(currentUrl, adUrl);
-                    });
-                    print(currentUrl);
-                  }, child: Text("Next")),
+                        if(Platform.isAndroid) {
+                          setState(() {
+                            currentIndex++;
+                            currentUrl =
+                                contentUrls[currentIndex % contentUrls.length];
+                            this
+                                .viewPlayerController
+                                .loadnew(currentUrl, adUrl);
+                          });
+                          print(currentUrl);
+                        }else{
+                          setState(() {
+                            currentIndex++;
+                            currentUrl =
+                            contentUrls[currentIndex % contentUrls.length];
+                            this
+                                .viewPlayerController
+                                .next(currentUrl.toString(),adUrl.toString());
+                          });
+                          print(currentUrl);
+                        }
+                      }, child: Text("Next")),
                 ],
               )
             ],
@@ -205,8 +266,8 @@ class _VideoPlayerState extends State<BmsVideoPlayer> {
           "y": widget.y,
           "width": widget.width,
           "height": widget.height,
-          "videoURL":
-              "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WhatCarCanYouGetForAGrand.mp4",
+          "videoURL":currentUrl,
+              // "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WhatCarCanYouGetForAGrand.mp4",
           "adURL":
               "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&impl=s&gdfp_req=1&env=vp&output=vmap&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ar%3Dpremidpostpodbumper&cmsid=496&vid=short_onecue&correlator="
         },
@@ -245,12 +306,25 @@ class BmsVideoPlayerController {
     return _channel.invokeMethod('loadnew', url+"@_@"+adurl);
   }
 
+  Future<void> loadpre(String url,String adurl) async {
+    assert(url != null);
+    return _channel.invokeMethod('loadpre', url+"@_@"+adurl);
+  }
+
   Future<void> pauseVideo() async {
     return _channel.invokeMethod('pauseVideo', 'pauseVideo');
   }
 
   Future<void> resumeVideo() async {
     return _channel.invokeMethod('resumeVideo', 'resumeVideo');
+  }
+
+  Future<void> next(String url,String adurl) async {
+    return _channel.invokeMethod('next', {"videoURL":url,"adURL":adurl});
+  }
+
+  Future<void> prev(String url,String adurl) async {
+    return _channel.invokeMethod('next', {"videoURL":url,"adURL":adurl});
   }
 }
 

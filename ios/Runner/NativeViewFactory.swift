@@ -2,7 +2,7 @@
 //  NativeViewFactory.swift
 //  Runner
 //
-//
+
 
 import Foundation
 import GoogleInteractiveMediaAds
@@ -44,7 +44,7 @@ public class NativeView : NSObject, FlutterPlatformView,fullScreeenDelegate, IMA
     var settings = UIButton()
    
     var playerView =  VideoPlayerView()
-    var controlView =  GSPlayerControlUIView()
+   var controlView =  GSPlayerControlUIView()
     
     var paybackSlider = UISlider()
 
@@ -58,12 +58,15 @@ public class NativeView : NSObject, FlutterPlatformView,fullScreeenDelegate, IMA
 
     var message : FlutterBinaryMessenger!
     weak var timer: Timer?
-    
+
 
     
-    static let kTestAppAdTagUrl = "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&impl=s&gdfp_req=1&env=vp&output=vmap&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ar%3Dpremidpostpodbumper&cmsid=496&vid=short_onecue&correlator="
+//     static let
 
-    
+    static var kTestAppAdTagUrl = "https://pubads.g.doubleclick.net/gampad/ads?iu=/21775744923/external/single_preroll_skippable&sz=640x480&ciu_szs=300x250%2C728x90&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=&pmad=4&video_duration=9000&vpos=preroll%2Cmidroll%2Cpostroll&preroll=1&postroll=1&pod=enabled&mridx=enabled"
+//     "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&impl=s&gdfp_req=1&env=vp&output=vmap&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ar%3Dpremidpostpodbumper&cmsid=496&vid=short_onecue&correlator="
+
+
     static let testingurl2 =
       "https://pubads.g.doubleclick.net/gampad/ads?iu=/21775744923/external/single_preroll_skippable&sz=640x480&ciu_szs=300x250%2C728x90&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator="
     init(
@@ -92,6 +95,36 @@ public class NativeView : NSObject, FlutterPlatformView,fullScreeenDelegate, IMA
                     self.adsManager.pause()
                 }
                 return
+         case "next":
+             if let arguments = call.arguments as? [String: Any],
+                    let videoURL = arguments["videoURL"] as? String,
+                    let adURL = arguments["adURL"] as? String {
+                     self.stopTimer()
+                     NativeView.kTestAppAdTagUrl = adURL
+                     self.setUpContentPlayer(view: self._view, url: videoURL)
+                     self.setUpAdsLoader()
+                     self.createNativeView(view: self._view)
+                     self.requestAds(view: self._view)  // Request new ads for the new video
+                     self.startTimer()
+                     self.playerView.resume()
+                 } else {
+                     result(FlutterError(code: "INVALID_ARGUMENT", message: "Invalid video URL", details: nil))
+                 }
+           case "prev":
+           if let arguments = call.arguments as? [String: Any],
+                               let videoURL = arguments["videoURL"] as? String,
+                               let adURL = arguments["adURL"] as? String {
+                                self.stopTimer()
+                                NativeView.kTestAppAdTagUrl = adURL
+                                self.setUpContentPlayer(view: self._view, url: videoURL)
+                                self.setUpAdsLoader()
+                                self.createNativeView(view: self._view)
+                                self.requestAds(view: self._view)  // Request new ads for the new video
+                                self.startTimer()
+                                self.playerView.resume()
+                            } else {
+                                result(FlutterError(code: "INVALID_ARGUMENT", message: "Invalid video URL", details: nil))
+                            }
 
             default:
                 result(FlutterMethodNotImplemented)
@@ -101,18 +134,20 @@ public class NativeView : NSObject, FlutterPlatformView,fullScreeenDelegate, IMA
     
         // iOS views can be created here
 
-        setUpContentPlayer(view: _view)
+        setUpContentPlayer(view: _view,url:kTestAppContentUrl_MP4)
         setUpAdsLoader()
         createNativeView(view: _view)
         startTimer()
        
         
-    }
-    
+}
+
+
+
     func startTimer() {
         timer?.invalidate()   // just in case you had existing `Timer`, `invalidate` it before we lose our reference to it
         timer = Timer.scheduledTimer(withTimeInterval: 4, repeats: true) { [weak self] _ in
-            self?.controlView.isHidden = true
+           self?.controlView.isHidden = true
         }
     }
 
@@ -132,7 +167,7 @@ public class NativeView : NSObject, FlutterPlatformView,fullScreeenDelegate, IMA
         flutterChannel.invokeMethod("fullScreen",arguments: 0)
         
         playerView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.height, height:UIScreen.main.bounds.size.width )
-        controlView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.height, height: UIScreen.main.bounds.size.width)
+       controlView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.height, height: UIScreen.main.bounds.size.width)
         
 
         }
@@ -144,50 +179,50 @@ public class NativeView : NSObject, FlutterPlatformView,fullScreeenDelegate, IMA
         flutterChannel.invokeMethod("normalScreen",arguments: 0)
         
         playerView.frame = CGRect(x: 0, y: 0, width:UIScreen.main.bounds.size.height, height: 400)
-        controlView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.height, height: 400)
+       controlView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.height, height: 400)
         
         }
     
     
     
     
-    func setUpContentPlayer(view _view: UIView) {
+    func setUpContentPlayer(view _view: UIView,url:String) {
       // Load AVPlayer with path to our content.
-        print("test URL1:", kTestAppContentUrl_MP4)
-    
-      
-      guard let contentURL = URL(string: kTestAppContentUrl_MP4) else {
+        print("test URL1:", url)
+
+
+      guard let contentURL = URL(string: url) else {
         print("ERROR: please use a valid URL for the content URL")
         return
       }
-        
+
         let controller = AVPlayerViewController()
-        let player = AVPlayer(url: URL(string: kTestAppContentUrl_MP4)!)
+        let player = AVPlayer(url: URL(string: url)!)
 
         controller.player = player
-        
+
         playerView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 400)
-        controlView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 400)
+       controlView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 400)
 
         playerView.contentMode = .scaleAspectFill
     
-      
+
 
         playerView.play(for: contentURL)
     
     
-        controlView.delegate = self
-        controlView.populate(with: playerView)
+       controlView.delegate = self
+       controlView.populate(with: playerView)
         
 
 
       // Size, position, and display the AVPlayer.
         _view.addSubview(playerView)
-        _view.addSubview(controlView)
+       _view.addSubview(controlView)
         
         playerView.pause(reason: .userInteraction)
-        controlView.isHidden = true
-        controlView.bringSubviewToFront(_view)
+       controlView.isHidden = true
+       controlView.bringSubviewToFront(_view)
         
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.touchHappen(_:)))
@@ -203,10 +238,10 @@ public class NativeView : NSObject, FlutterPlatformView,fullScreeenDelegate, IMA
         contentPlayhead = IMAAVPlayerContentPlayhead(avPlayer: playerView.player!)
 
     }
-    
+
     @objc func touchHappen(_ sender: UITapGestureRecognizer) {
         print("touchHappen")
-        self.controlView.isHidden = false
+       self.controlView.isHidden = false
     }
     
    
@@ -241,11 +276,11 @@ public class NativeView : NSObject, FlutterPlatformView,fullScreeenDelegate, IMA
         adTagUrl: NativeView.kTestAppAdTagUrl,
         adDisplayContainer: adDisplayContainer,
         contentPlayhead: contentPlayhead,
-        userContext: controlView)
+//         userContext: nil)
+       userContext: controlView)
 
-        
-        
-      adsLoader.requestAds(with: request)
+       adsLoader.requestAds(with: request)
+
 
     }
     public func view() -> UIView {
@@ -259,9 +294,8 @@ public class NativeView : NSObject, FlutterPlatformView,fullScreeenDelegate, IMA
                 settings.setImage(UIImage(named: "play_48px"), for: .normal)
                 settings.frame = CGRect(x: 200, y:200 , width: 50, height: 50)
         _view.addSubview(settings)
-        _view.bringSubviewToFront(controlView)
+       _view.bringSubviewToFront(controlView)
         _view.bringSubviewToFront(settings)
-
 
     }
 
@@ -291,7 +325,7 @@ public class NativeView : NSObject, FlutterPlatformView,fullScreeenDelegate, IMA
 
     public func adsLoader(_ loader: IMAAdsLoader, failedWith adErrorData: IMAAdLoadingErrorData) {
         playerView.resume()
-        controlView.isHidden = false
+       controlView.isHidden = false
 
     }
 
@@ -335,14 +369,14 @@ public class NativeView : NSObject, FlutterPlatformView,fullScreeenDelegate, IMA
       // content.
       print("AdsManager error: \(error.message ?? "nil")")
         playerView.resume()
-        controlView.isHidden = false
+       controlView.isHidden = false
 
     }
 
     public func adsManagerDidRequestContentPause(_ adsManager: IMAAdsManager) {
       // The SDK is going to play ads, so pause the content.
         playerView.pause(reason: .userInteraction)
-        controlView.isHidden = true
+       controlView.isHidden = true
 
     }
 
@@ -350,7 +384,7 @@ public class NativeView : NSObject, FlutterPlatformView,fullScreeenDelegate, IMA
       // The SDK is done playing ads (at least for now), so resume the content.
         print("AdsManager resume: \("nil")")
         playerView.resume()
-        controlView.isHidden = false
+       controlView.isHidden = false
 
     }
 }
