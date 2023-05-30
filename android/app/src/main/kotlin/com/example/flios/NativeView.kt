@@ -1,28 +1,25 @@
 package com.example.flios
 
-import android.R
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.net.Uri
+import android.view.LayoutInflater
 import android.view.View
+import android.view.View.inflate
 import com.google.ads.interactivemedia.v3.api.ImaSdkFactory
 import com.google.ads.interactivemedia.v3.api.ImaSdkSettings
-import com.google.ads.interactivemedia.v3.internal.id
 import com.google.android.exoplayer2.C
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.MediaItem.AdsConfiguration
-import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ext.ima.ImaAdsLoader
-
 import com.google.android.exoplayer2.source.DefaultMediaSourceFactory
-import com.google.android.exoplayer2.source.MediaSourceFactory
+import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.ads.AdPlaybackState
 import com.google.android.exoplayer2.source.ads.AdsLoader
-import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
-import com.google.android.exoplayer2.ui.PlayerView
+import com.google.android.exoplayer2.ui.StyledPlayerView
 import com.google.android.exoplayer2.upstream.DataSource
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
+import com.google.android.exoplayer2.upstream.DefaultDataSource
 import com.google.android.exoplayer2.util.Util
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodCall
@@ -30,21 +27,24 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.platform.PlatformView
 
 
-internal class NativeView(
-    context: Context, id: Int, creationParams: Map<String?, Any?>?, messenger: BinaryMessenger,
-    mainActivity: com.example.flios.MainActivity
+internal class NativeView(context: Context, id: Int, creationParams: Map<String?, Any?>?, messenger: BinaryMessenger,
+    mainActivity: MainActivity
 ) : PlatformView,
     MethodChannel.MethodCallHandler {
-    val videoList = listOf("https://storage.googleapis.com/gvabox/media/samples/stock.mp4", "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WhatCarCanYouGetForAGrand.mp4")
-    private val playerView: PlayerView
+    private val videoList = listOf("https://storage.googleapis.com/gvabox/media/samples/stock.mp4",
+        "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WhatCarCanYouGetForAGrand.mp4")
+    private var playerView: StyledPlayerView
     private var adsLoader: ImaAdsLoader? = null
     private var eventListener: AdsLoader.EventListener? = null
     var player: ExoPlayer? = null
     var contentUri: Uri? = null
     var adTagUri: Uri? = null
     private val methodChannel: MethodChannel
+
+    private var view: View = LayoutInflater.from(context).inflate(R.layout.activity_video_ad, null)
+
     override fun getView(): View {
-        return playerView
+        return view
     }
 
 
@@ -64,26 +64,26 @@ internal class NativeView(
 
             }
             "pauseVideo" -> {
-                player!!.pause()
+                player?.pause()
             }
 
             "loadpre" -> {
-                var fff = call.arguments.toString()
-                println("bvvvvvvvvvvv= ${fff}")
+                val fff = call.arguments.toString()
+                println("bvvvvvvvvvvv= $fff")
 
-                player!!.previous()
+                player?.seekToPreviousMediaItem()
 
             }
 
             "loadnew" -> {
-                var fff = call.arguments.toString()
-                println("bvvvvvvvvvvv= ${fff}")
+                val fff = call.arguments.toString()
+                println("bvvvvvvvvvvv= $fff")
 
-                player!!.next()
+                player?.seekToNextMediaItem()
 
             }
             "resumeVideo" -> {
-                player!!.play()
+                player?.play()
             }
             else -> result.notImplemented()
         }
@@ -93,15 +93,17 @@ internal class NativeView(
     init {
         methodChannel = MethodChannel(messenger, "bms_video_player")
         methodChannel.setMethodCallHandler(this)
-        playerView = PlayerView(context)
-        val imaSdkSettings: ImaSdkSettings = ImaSdkFactory.getInstance().createImaSdkSettings()
-        imaSdkSettings.setLanguage("he")
+//        playerView = StyledPlayerView(context)
 
-        adsLoader = ImaAdsLoader.Builder( /* context= */context).setImaSdkSettings(imaSdkSettings).build()
+        playerView = view.findViewById(R.id.player_view)
+
+        val imaSdkSettings: ImaSdkSettings = ImaSdkFactory.getInstance().createImaSdkSettings()
+        imaSdkSettings.language = "he"
+
+        adsLoader = ImaAdsLoader.Builder(context).setImaSdkSettings(imaSdkSettings).build()
         if (Util.SDK_INT > 23) {
             initializePlayer(id, mainActivity, creationParams, methodChannel)
         }
-
     }
 
 
@@ -112,105 +114,35 @@ internal class NativeView(
         methodChannel: MethodChannel
     ) {
 
+        val dataSourceFactory: DataSource.Factory = DefaultDataSource.Factory(view.context)
 
-        // Set up the factory for media sources, passing the ads loader and ad view providers.
-        val dataSourceFactory: DataSource.Factory =
-            DefaultDataSourceFactory(view.context, Util.getUserAgent(playerView.context, "flios"))
-        val mediaSourceFactory: MediaSourceFactory = DefaultMediaSourceFactory(dataSourceFactory)
-            .setAdsLoaderProvider { unusedAdTagUri: AdsConfiguration? -> adsLoader }
-            .setAdViewProvider(playerView)
+        val mediaSourceFactory: MediaSource.Factory = DefaultMediaSourceFactory(dataSourceFactory)
+            .setLocalAdInsertionComponents(
+                { unusedAdTagUri: AdsConfiguration? -> adsLoader },
+                playerView
+            )
 
         player = ExoPlayer.Builder(view.context).setMediaSourceFactory(mediaSourceFactory).build()
-        player!!.preparePlayer(playerView, true, mainActivity, methodChannel)
         playerView.player = player
         adsLoader!!.setPlayer(player)
-        playerView.isControllerVisible
+        playerView.isControllerFullyVisible
         playerView.setShowNextButton(false)
         playerView.setShowPreviousButton(false)
         playerView.showController()
-        playerView.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIT
-        playerView.controllerHideOnTouch = false
+        playerView.useController = true
+        playerView.controllerAutoShow = true
 
+//        playerView.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIT
+//        playerView.controllerHideOnTouch = false
 
-        // Create the MediaItem to play, specifying the content URI and ad tag URI.
-//         val contentUri = Uri.parse("https://storage.googleapis.com/gvabox/media/samples/stock.mp4")
-        val url = creationParams as Map<String?, Any?>?
-         contentUri = Uri.parse(url?.get("videoURL") as String?)
-        adTagUri =Uri.parse(url?.get("adURL") as String?)
-//            Uri.parse("https://pubads.g.doubleclick.net/gampad/ads?iu=/21775744923/external/single_preroll_skippable&sz=640x480&ciu_szs=300x250%2C728x90&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=&pmad=4&video_duration=9000&vpos=preroll%2Cmidroll%2Cpostroll&preroll=1&postroll=1&pod=enabled&mridx=enabled")
+        contentUri = Uri.parse(creationParams?.get("videoURL") as String?)
+        adTagUri =Uri.parse(creationParams?.get("adURL") as String?)
 
         println("myddddddddd=${contentUri.toString()}")
         var adPlaybackState = AdPlaybackState(0, 500 * C.MICROS_PER_SECOND)
         adPlaybackState = adPlaybackState.withAdCount(0,4)
-//        adPlaybackState = adPlaybackState.withAdUri(0, 0, adTagUri)
 
         eventListener?.onAdPlaybackState(adPlaybackState);
-
-
-        val mediaItem = MediaItem.Builder().setUri(contentUri).build()
-
-
-//        val contentStart = MediaItem.Builder().setUri(contentUri)
-//            .setAdsConfiguration(
-//                AdsConfiguration.Builder(adTagUri).build()
-//            )                .setClipStartPositionMs(0).build()
-
-//        player!!.addMediaItem(contentStart)
-//
-//        player!!.repeatMode = Player.REPEAT_MODE_ALL
-//        player!!.prepare()
-//
-//
-//        player!!.setPlayWhenReady(false)
-//
-//
-//        // Set PlayWhenReady. If true, content and ads autoplay.
-//        // Set PlayWhenReady. If true, content and ads autoplay.
-//        player!!.playWhenReady = true
-// A pre-roll ad.
-
-
-
-// A pre-roll ad.
-        val preRollAd =Uri.parse("https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&impl=s&gdfp_req=1&env=vp&output=vmap&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ar%3Dpremidpostpodbumper&cmsid=496&vid=short_onecue&correlator=&hl=ja")
-        val preRollAd_en =Uri.parse("https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&impl=s&gdfp_req=1&env=vp&output=vmap&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ar%3Dpremidpostpodbumper&cmsid=496&vid=short_onecue&correlator=")
-
-// A mid-roll ad.
-// A mid-roll ad.
-        val midRollAd =
-            Uri.parse("https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&impl=s&gdfp_req=1&env=vp&output=vmap&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ar%3Dpremidpostpodbumper&cmsid=496&vid=short_onecue&correlator=&hl=ja")
-// The rest of the content
-// The rest of the content
-
-
-        val contentStart = MediaItem.Builder().setUri(contentUri)
-            .setAdsConfiguration(
-                AdsConfiguration.Builder(adTagUri!!).build()
-            )                .setClipStartPositionMs(0).build()
-
-        val contentMid: MediaItem = MediaItem.Builder()
-            .setUri(contentUri).setAdsConfiguration(
-                AdsConfiguration.Builder(midRollAd).build()
-            )                .setClipStartPositionMs(120_000)
-            .build()
-
-        val contentEnd: MediaItem = MediaItem.Builder()
-            .setUri(contentUri).setAdsConfiguration(
-                AdsConfiguration.Builder(midRollAd).build()
-            )                .setClipStartPositionMs(240_000)
-            .build()
-
-// Build the playlist.
-
-// Build the playlist.
-        // Build the playlist.
-//        player!!.addMediaItem(mediaItem);
-//        player!!.addMediaItem(contentStart);
-//        player!!.addMediaItem(contentMid);
-//        player!!.addMediaItem(contentEnd);
-
-// Prepare the content and ad to be played with the SimpleExoPlayer.
-
 
         for (i in videoList.indices){
             var songPath:String = videoList.get(i)
@@ -224,21 +156,11 @@ internal class NativeView(
             player!!.addMediaItem(contentStartmmm)
         }
 
-
-
-
-// Prepare the content and ad to be played with the SimpleExoPlayer.
         player!!.prepare()
-//        player!!.play()
 
-        player!!.setPlayWhenReady(false)
+//        player!!.playWhenReady = false
 
-
-        // Set PlayWhenReady. If true, content and ads autoplay.
-        // Set PlayWhenReady. If true, content and ads autoplay.
         player!!.playWhenReady = true
-
-
 
     }
 

@@ -34,7 +34,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
 
   var viewPlayerController;
-  MethodChannel _channel;
+  late MethodChannel _channel;
   bool isNormalScreen = true;
 
   @override
@@ -232,10 +232,11 @@ class _VideoPlayerState extends State<BmsVideoPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      child: nativeView()
-    );
+    // return GestureDetector(
+    //   behavior: HitTestBehavior.opaque,
+    //   child: nativeView()
+    // );
+    return nativeView();
   }
 
 
@@ -289,7 +290,7 @@ class _VideoPlayerState extends State<BmsVideoPlayer> {
 typedef void BmsVideoPlayerCreatedCallback(BmsVideoPlayerController controller);
 
 class BmsVideoPlayerController {
-  MethodChannel _channel;
+  MethodChannel? _channel;
 
   BmsVideoPlayerController.init(int id) {
     _channel = new MethodChannel('bms_video_player');
@@ -297,34 +298,34 @@ class BmsVideoPlayerController {
 
   Future<void> loadUrl(String url) async {
     assert(url != null);
-    return _channel.invokeMethod('loadUrl', url);
+    return _channel?.invokeMethod('loadUrl', url);
   }
 
 
   Future<void> loadnew(String url,String adurl) async {
     assert(url != null);
-    return _channel.invokeMethod('loadnew', url+"@_@"+adurl);
+    return _channel?.invokeMethod('loadnew', url+"@_@"+adurl);
   }
 
   Future<void> loadpre(String url,String adurl) async {
     assert(url != null);
-    return _channel.invokeMethod('loadpre', url+"@_@"+adurl);
+    return _channel?.invokeMethod('loadpre', url+"@_@"+adurl);
   }
 
   Future<void> pauseVideo() async {
-    return _channel.invokeMethod('pauseVideo', 'pauseVideo');
+    return _channel?.invokeMethod('pauseVideo', 'pauseVideo');
   }
 
   Future<void> resumeVideo() async {
-    return _channel.invokeMethod('resumeVideo', 'resumeVideo');
+    return _channel?.invokeMethod('resumeVideo', 'resumeVideo');
   }
 
   Future<void> next(String url,String adurl) async {
-    return _channel.invokeMethod('next', {"videoURL":url,"adURL":adurl});
+    return _channel?.invokeMethod('next', {"videoURL":url,"adURL":adurl});
   }
 
   Future<void> prev(String url,String adurl) async {
-    return _channel.invokeMethod('next', {"videoURL":url,"adURL":adurl});
+    return _channel?.invokeMethod('next', {"videoURL":url,"adURL":adurl});
   }
 }
 
@@ -337,13 +338,13 @@ class BmsVideoPlayer extends StatefulWidget {
   final url;
 
   BmsVideoPlayer({
-    Key key,
-    @required this.onCreated,
-    @required this.x,
-    @required this.y,
-    @required this.width,
-    @required this.height,
-    @required this.url,
+    Key? key,
+    required this.onCreated,
+    required this.x,
+    required this.y,
+    required this.width,
+    required this.height,
+    required this.url,
   });
 
   @override

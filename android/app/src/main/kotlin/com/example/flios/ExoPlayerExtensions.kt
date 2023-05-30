@@ -9,17 +9,18 @@ import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
-import com.google.android.exoplayer2.ui.PlayerView
+//import com.google.android.exoplayer2.ui.PlayerView
+import com.google.android.exoplayer2.ui.StyledPlayerView
 
 @SuppressLint("SourceLockedOrientationActivity")
 fun ExoPlayer.preparePlayer(
-    playerView: PlayerView,
+    playerView: StyledPlayerView,
     forceLandscape: Boolean = false,
-    mainActivity: com.example.flios.MainActivity,
+    mainActivity: MainActivity,
     methodChannel: io.flutter.plugin.common.MethodChannel
 ) {
     (playerView.context as Context).apply {
-        val playerViewFullscreen = PlayerView(this)
+        val playerViewFullscreen = StyledPlayerView(this)
         val layoutParams = ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT
@@ -49,7 +50,7 @@ fun ExoPlayer.preparePlayer(
             playerView.visibility = View.VISIBLE
             playerViewFullscreen.visibility = View.VISIBLE
             methodChannel.invokeMethod("fullScreen", 0)
-            PlayerView.switchTargetView(this@preparePlayer, playerView, playerViewFullscreen)
+            StyledPlayerView.switchTargetView(this@preparePlayer, playerView, playerViewFullscreen)
             playerView.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIT
             playerView.player = this@preparePlayer
         }
@@ -65,7 +66,7 @@ fun ExoPlayer.preparePlayer(
             playerView.visibility = View.VISIBLE
             playerViewFullscreen.visibility = View.GONE
             methodChannel.invokeMethod("normalScreen", 0)
-            PlayerView.switchTargetView(this@preparePlayer, playerViewFullscreen, playerView)
+            StyledPlayerView.switchTargetView(this@preparePlayer, playerViewFullscreen, playerView)
             playerView.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIT
             playerView.player = this@preparePlayer
         }
