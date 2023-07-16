@@ -1,9 +1,11 @@
 
-import 'package:flios/dummy.dart';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:io' show Platform;
+
+import 'dummy.dart';
 
 
 void main() => runApp(MyApp());
@@ -34,7 +36,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
 
   var viewPlayerController;
-  MethodChannel _channel;
+  late MethodChannel _channel;
   bool isNormalScreen = true;
 
   @override
@@ -57,6 +59,12 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
         ]);
         setState(() {});
         break;
+      case 'adCompleted':{
+        print('Ad completed');}
+      break;
+      case 'adSkipped':{
+        print('Ad Skipped');
+        break;}
       case 'normalScreen':
         isNormalScreen = true;
         SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
@@ -102,12 +110,12 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     var height = isNormalScreen ? 400.0 : MediaQuery.of(context).size.height;
 
     BmsVideoPlayer videoPlayer = new BmsVideoPlayer(
-        onCreated: onViewPlayerCreated,
-        x: x,
-        y: y,
-        width: width,
-        height: height,
-        url: currentUrl,
+      onCreated: onViewPlayerCreated,
+      x: x,
+      y: y,
+      width: width,
+      height: height,
+      url: currentUrl,
     );
     int _selectedIndex = 0;
     List<String> contentUrls=[
@@ -127,12 +135,12 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
       }
     }
 
-   var adUrl="https://pubads.g.doubleclick.net/gampad/ads?iu=/21775744923/external/single_preroll_skippable&sz=640x480&ciu_szs=300x250%2C728x90&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=&pmad=4&video_duration=9000&vpos=preroll%2Cmidroll%2Cpostroll&preroll=1&postroll=1&pod=enabled&mridx=enabled";
+    var adUrl="https://pubads.g.doubleclick.net/gampad/ads?iu=/21775744923/external/single_preroll_skippable&sz=640x480&ciu_szs=300x250%2C728x90&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=&pmad=4&video_duration=9000&vpos=preroll%2Cmidroll%2Cpostroll&preroll=1&postroll=1&pod=enabled&mridx=enabled";
     return Scaffold(
       appBar: isNormalScreen
           ? AppBar(
-              title: Text("Video plugin"),
-            )
+        title: Text("Video plugin"),
+      )
           : null,
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex, //New
@@ -168,16 +176,16 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                 children: [
                   ElevatedButton(onPressed: (){
                     if(Platform.isAndroid) {
-                          setState(() {
-                            currentIndex--;
-                            currentUrl =
-                                contentUrls[currentIndex % contentUrls.length];
-                            this
-                                .viewPlayerController
-                                .loadpre(currentUrl, adUrl);
-                          });
-                          print(currentUrl);
-                        }else{
+                      setState(() {
+                        currentIndex--;
+                        currentUrl =
+                        contentUrls[currentIndex % contentUrls.length];
+                        this
+                            .viewPlayerController
+                            .loadpre(currentUrl, adUrl);
+                      });
+                      print(currentUrl);
+                    }else{
                       setState(() {
                         currentIndex--;
                         currentUrl =
@@ -188,30 +196,30 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                       });
                       print(currentUrl);
                     }
-                      }, child: Text("Previous")),
+                  }, child: Text("Previous")),
                   ElevatedButton(onPressed: (){
-                        if(Platform.isAndroid) {
-                          setState(() {
-                            currentIndex++;
-                            currentUrl =
-                                contentUrls[currentIndex % contentUrls.length];
-                            this
-                                .viewPlayerController
-                                .loadnew(currentUrl, adUrl);
-                          });
-                          print(currentUrl);
-                        }else{
-                          setState(() {
-                            currentIndex++;
-                            currentUrl =
-                            contentUrls[currentIndex % contentUrls.length];
-                            this
-                                .viewPlayerController
-                                .next(currentUrl.toString(),adUrl.toString());
-                          });
-                          print(currentUrl);
-                        }
-                      }, child: Text("Next")),
+                    if(Platform.isAndroid) {
+                      setState(() {
+                        currentIndex++;
+                        currentUrl =
+                        contentUrls[currentIndex % contentUrls.length];
+                        this
+                            .viewPlayerController
+                            .loadnew(currentUrl, adUrl);
+                      });
+                      print(currentUrl);
+                    }else{
+                      setState(() {
+                        currentIndex++;
+                        currentUrl =
+                        contentUrls[currentIndex % contentUrls.length];
+                        this
+                            .viewPlayerController
+                            .next(currentUrl.toString(),adUrl.toString());
+                      });
+                      print(currentUrl);
+                    }
+                  }, child: Text("Next")),
                 ],
               )
             ],
@@ -232,31 +240,32 @@ class _VideoPlayerState extends State<BmsVideoPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      child: nativeView()
-    );
+    // return GestureDetector(
+    //   behavior: HitTestBehavior.opaque,
+    //   child: nativeView()
+    // );
+    return nativeView();
   }
 
 
   nativeView() {
     if (defaultTargetPlatform == TargetPlatform.android) {
       return
-          AndroidView(
-        viewType: viewType,
-        onPlatformViewCreated: onPlatformViewCreated,
-        creationParams: <String, dynamic>{
-          "x": widget.x,
-          "y": widget.y,
-          "width": widget.width,
-          "height": widget.height,
-          "videoURL": currentUrl,
-              // "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WhatCarCanYouGetForAGrand.mp4",
-          "adURL":
-              "https://pubads.g.doubleclick.net/gampad/ads?iu=/21775744923/external/single_preroll_skippable&sz=640x480&ciu_szs=300x250%2C728x90&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=&pmad=4&video_duration=9000&vpos=preroll%2Cmidroll%2Cpostroll&preroll=1&postroll=1&pod=enabled&mridx=enabled"
-        },
-        creationParamsCodec: const StandardMessageCodec(),
-      );
+        AndroidView(
+          viewType: viewType,
+          onPlatformViewCreated: onPlatformViewCreated,
+          creationParams: <String, dynamic>{
+            "x": widget.x,
+            "y": widget.y,
+            "width": widget.width,
+            "height": widget.height,
+            "videoURL": currentUrl,
+            // "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WhatCarCanYouGetForAGrand.mp4",
+            "adURL":
+            "https://pubads.g.doubleclick.net/gampad/ads?iu=/21775744923/external/single_preroll_skippable&sz=640x480&ciu_szs=300x250%2C728x90&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=&pmad=4&video_duration=9000&vpos=preroll%2Cmidroll%2Cpostroll&preroll=1&postroll=1&pod=enabled&mridx=enabled"
+          },
+          creationParamsCodec: const StandardMessageCodec(),
+        );
     } else {
       return UiKitView(
         viewType: viewType,
@@ -267,9 +276,9 @@ class _VideoPlayerState extends State<BmsVideoPlayer> {
           "width": widget.width,
           "height": widget.height,
           "videoURL":currentUrl,
-              // "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WhatCarCanYouGetForAGrand.mp4",
+          // "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WhatCarCanYouGetForAGrand.mp4",
           "adURL":
-              "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&impl=s&gdfp_req=1&env=vp&output=vmap&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ar%3Dpremidpostpodbumper&cmsid=496&vid=short_onecue&correlator="
+          "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&impl=s&gdfp_req=1&env=vp&output=vmap&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ar%3Dpremidpostpodbumper&cmsid=496&vid=short_onecue&correlator="
         },
         creationParamsCodec: const StandardMessageCodec(),
       );
@@ -289,7 +298,7 @@ class _VideoPlayerState extends State<BmsVideoPlayer> {
 typedef void BmsVideoPlayerCreatedCallback(BmsVideoPlayerController controller);
 
 class BmsVideoPlayerController {
-  MethodChannel _channel;
+  MethodChannel? _channel;
 
   BmsVideoPlayerController.init(int id) {
     _channel = new MethodChannel('bms_video_player');
@@ -297,34 +306,34 @@ class BmsVideoPlayerController {
 
   Future<void> loadUrl(String url) async {
     assert(url != null);
-    return _channel.invokeMethod('loadUrl', url);
+    return _channel?.invokeMethod('loadUrl', url);
   }
 
 
   Future<void> loadnew(String url,String adurl) async {
     assert(url != null);
-    return _channel.invokeMethod('loadnew', url+"@_@"+adurl);
+    return _channel?.invokeMethod('loadnew', url+"@_@"+adurl);
   }
 
   Future<void> loadpre(String url,String adurl) async {
     assert(url != null);
-    return _channel.invokeMethod('loadpre', url+"@_@"+adurl);
+    return _channel?.invokeMethod('loadpre', url+"@_@"+adurl);
   }
 
   Future<void> pauseVideo() async {
-    return _channel.invokeMethod('pauseVideo', 'pauseVideo');
+    return _channel?.invokeMethod('pauseVideo', 'pauseVideo');
   }
 
   Future<void> resumeVideo() async {
-    return _channel.invokeMethod('resumeVideo', 'resumeVideo');
+    return _channel?.invokeMethod('resumeVideo', 'resumeVideo');
   }
 
   Future<void> next(String url,String adurl) async {
-    return _channel.invokeMethod('next', {"videoURL":url,"adURL":adurl});
+    return _channel?.invokeMethod('next', {"videoURL":url,"adURL":adurl});
   }
 
   Future<void> prev(String url,String adurl) async {
-    return _channel.invokeMethod('next', {"videoURL":url,"adURL":adurl});
+    return _channel?.invokeMethod('next', {"videoURL":url,"adURL":adurl});
   }
 }
 
@@ -337,13 +346,13 @@ class BmsVideoPlayer extends StatefulWidget {
   final url;
 
   BmsVideoPlayer({
-    Key key,
-    @required this.onCreated,
-    @required this.x,
-    @required this.y,
-    @required this.width,
-    @required this.height,
-    @required this.url,
+    Key? key,
+    required this.onCreated,
+    required this.x,
+    required this.y,
+    required this.width,
+    required this.height,
+    required this.url,
   });
 
   @override
