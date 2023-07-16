@@ -1,9 +1,9 @@
-#Sun May 21 02:15:39 PKT 2023
-base.2=/Users/mac/Downloads/ima-sdk-demo-flutter 2/build/app/intermediates/dex/debug/mergeDexDebug/classes3.dex
+#Sun Jul 16 06:08:55 PKT 2023
+base.2=/Users/mac/StudioProjects/fixes/native-player/build/app/intermediates/dex/debug/mergeDexDebug/classes3.dex
 path.2=classes3.dex
-base.1=/Users/mac/Downloads/ima-sdk-demo-flutter 2/build/app/intermediates/dex/debug/mergeDexDebug/classes2.dex
+base.1=/Users/mac/StudioProjects/fixes/native-player/build/app/intermediates/dex/debug/mergeDexDebug/classes2.dex
 path.1=classes2.dex
-base.0=/Users/mac/Downloads/ima-sdk-demo-flutter 2/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
+base.0=/Users/mac/StudioProjects/fixes/native-player/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
 renamed.2=classes3.dex
 renamed.1=classes2.dex
 renamed.0=classes.dex

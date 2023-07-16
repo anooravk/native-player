@@ -83,10 +83,10 @@ public class NativeView : NSObject, FlutterPlatformView,fullScreeenDelegate, IMA
             print("test URL:", kTestAppContentUrl_MP4)
         }
         message = messenger
-        
+
         let flutterChannel = FlutterMethodChannel(name: "bms_video_player",
                                              binaryMessenger: messenger!)
-          
+
         flutterChannel.setMethodCallHandler({ (call: FlutterMethodCall, result: FlutterResult) -> Void in
             switch call.method {
             case "pauseVideo":
@@ -130,16 +130,16 @@ public class NativeView : NSObject, FlutterPlatformView,fullScreeenDelegate, IMA
                 result(FlutterMethodNotImplemented)
             }
             })
-         
-    
+
+
         // iOS views can be created here
 
         setUpContentPlayer(view: _view,url:kTestAppContentUrl_MP4)
         setUpAdsLoader()
         createNativeView(view: _view)
         startTimer()
-       
-        
+
+
 }
 
 
@@ -158,34 +158,34 @@ public class NativeView : NSObject, FlutterPlatformView,fullScreeenDelegate, IMA
 
     // if appropriate, make sure to stop your timer in `deinit`
 
-    
-    
+
+
     func fullScreenTap() {
             print("fullScreen tapped!!")
         let flutterChannel = FlutterMethodChannel(name: "bms_video_player",
                                              binaryMessenger: message!)
         flutterChannel.invokeMethod("fullScreen",arguments: 0)
-        
+
         playerView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.height, height:UIScreen.main.bounds.size.width )
        controlView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.height, height: UIScreen.main.bounds.size.width)
-        
+
 
         }
-    
+
     func normalScreenTap() {
             print("normalScreen tapped!!")
         let flutterChannel = FlutterMethodChannel(name: "bms_video_player",
                                              binaryMessenger: message!)
         flutterChannel.invokeMethod("normalScreen",arguments: 0)
-        
+
         playerView.frame = CGRect(x: 0, y: 0, width:UIScreen.main.bounds.size.height, height: 400)
        controlView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.height, height: 400)
-        
+
         }
-    
-    
-    
-    
+
+
+
+
     func setUpContentPlayer(view _view: UIView,url:String) {
       // Load AVPlayer with path to our content.
         print("test URL1:", url)
@@ -205,32 +205,32 @@ public class NativeView : NSObject, FlutterPlatformView,fullScreeenDelegate, IMA
        controlView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 400)
 
         playerView.contentMode = .scaleAspectFill
-    
+
 
 
         playerView.play(for: contentURL)
-    
-    
+
+
        controlView.delegate = self
        controlView.populate(with: playerView)
-        
+
 
 
       // Size, position, and display the AVPlayer.
         _view.addSubview(playerView)
        _view.addSubview(controlView)
-        
+
         playerView.pause(reason: .userInteraction)
        controlView.isHidden = true
        controlView.bringSubviewToFront(_view)
-        
-        
+
+
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.touchHappen(_:)))
         playerView.addGestureRecognizer(tap)
         playerView.isUserInteractionEnabled = true
 
-       
-        
+
+
 
         //_view.layer.addSublayer(playerLayer!)
 
@@ -243,13 +243,13 @@ public class NativeView : NSObject, FlutterPlatformView,fullScreeenDelegate, IMA
         print("touchHappen")
        self.controlView.isHidden = false
     }
-    
-   
+
+
 
     @objc func applicationDidEnterBackground(_ notification: NSNotification) {
         playerView.pause(reason: .userInteraction)
     }
-    
+
     @objc func contentDidFinishPlaying(_ notification: Notification) {
       // Make sure we don't call contentComplete as a result of an ad completing.
 //       if (notification.object as! AVPlayerItem) == playerView.playerLayer.player?.currentItem {
@@ -258,11 +258,11 @@ public class NativeView : NSObject, FlutterPlatformView,fullScreeenDelegate, IMA
     }
 
     func setUpAdsLoader() {
-        
+
         let settings = IMASettings()
         settings.language = "he"  //hebrew
-        
-        
+
+
       adsLoader = IMAAdsLoader(settings: settings)
       adsLoader.delegate = self
     }
@@ -330,8 +330,29 @@ public class NativeView : NSObject, FlutterPlatformView,fullScreeenDelegate, IMA
     }
 
     // MARK: - IMAAdsManagerDelegate
+private func sendAdCompletedToFlutter() {
+let flutterChannel = FlutterMethodChannel(name: "bms_video_player",
+                                             binaryMessenger: message!)
+        flutterChannel.invokeMethod("adCompleted",arguments: 0)
+
+    }
+
+    private func sendAdSkippedToFlutter() {
+let flutterChannel = FlutterMethodChannel(name: "bms_video_player",
+                                             binaryMessenger: message!)
+        flutterChannel.invokeMethod("adSkipped",arguments: 0)
+
+    }
 
     public func adsManager(_ adsManager: IMAAdsManager, didReceive event: IMAAdEvent) {
+      if event.type == IMAAdEventType.COMPLETE {
+                  print("Ad completed")
+                  sendAdCompletedToFlutter()
+              }
+              if event.type == IMAAdEventType.SKIPPED {
+                          print("Ad Skipped")
+                          sendAdSkippedToFlutter()
+                      }
       if event.type == IMAAdEventType.LOADED {
         // When the SDK notifies us that ads have been loaded, play them.
         adsManager.start()

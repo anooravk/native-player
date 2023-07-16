@@ -38,18 +38,19 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.flios"
+        applicationId "com.app.nativeplayer"
         minSdkVersion 16
-        targetSdkVersion 30
+        targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
     }
 
-
     compileOptions {
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
+
 
 
     buildTypes {
@@ -80,11 +81,10 @@ flutter {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.multidex:multidex:2.0.1'
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'com.google.android.exoplayer:exoplayer-core:2.18.7' //2.16.1
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.18.7'
     implementation 'com.google.android.exoplayer:exoplayer-ui:2.18.7'
-
-    // The library adds the IMA ExoPlayer integration for ads.
     implementation 'com.google.android.exoplayer:extension-ima:2.18.7'
-   // implementation 'com.github.norulab:android-exoplayer-fullscreen:1.2.1'
+    implementation 'com.google.ads.interactivemedia.v3:interactivemedia:3.10.6'
+    implementation 'com.google.android.gms:play-services-ads-identifier:16.0.0'
 }

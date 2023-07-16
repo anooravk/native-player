@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/mac/Downloads/ima-sdk-demo-flutter 2/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-v25/values-v25.xml",
+            "outputFile": "/Users/mac/StudioProjects/fixes/native-player/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-v25/values-v25.xml",
             "map": [
                 {
-                    "source": "/Users/mac/.gradle/caches/transforms-3/fdb195fd4fd0d51d12e97799cfc7ec60/transformed/appcompat-1.4.1/res/values-v25/values-v25.xml",
+                    "source": "/Users/mac/.gradle/caches/transforms-3/94b5f61f8ea25aa9590d69e8093f7dfb/transformed/appcompat-1.6.1/res/values-v25/values-v25.xml",
                     "from": {
                         "startLines": "2,3,4,6",
                         "startColumns": "4,4,4,4",

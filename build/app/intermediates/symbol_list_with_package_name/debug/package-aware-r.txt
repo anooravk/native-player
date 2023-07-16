@@ -1,4 +1,4 @@
-com.example.flios
+com.app.nativeplayer
 anim abc_fade_in
 anim abc_fade_out
 anim abc_grow_fade_in_from_bottom
@@ -521,8 +521,12 @@ color exo_white
 color exo_white_opacity_70
 color foreground_material_dark
 color foreground_material_light
+color gray_400
+color gray_600
 color highlighted_text_material_dark
 color highlighted_text_material_light
+color light_blue_400
+color light_blue_600
 color material_blue_grey_800
 color material_blue_grey_900
 color material_blue_grey_950
@@ -1108,10 +1112,6 @@ id ifRoom
 id image
 id info
 id italic
-id item1
-id item2
-id item3
-id item4
 id item_touch_helper_previous_elevation
 id light
 id line1
@@ -1220,6 +1220,7 @@ id up
 id useLogo
 id video_decoder_gl_surface_view
 id view_tree_lifecycle_owner
+id view_tree_on_back_pressed_dispatcher_owner
 id view_tree_saved_state_registry_owner
 id view_tree_view_model_store_owner
 id visible_removing_fragment_view_tag
@@ -1325,8 +1326,6 @@ layout select_dialog_item_material
 layout select_dialog_multichoice_material
 layout select_dialog_singlechoice_material
 layout support_simple_spinner_dropdown_item
-menu example_menu
-menu example_menu2
 mipmap ic_launcher
 plurals exo_controls_fastforward_by_amount_description
 plurals exo_controls_rewind_by_amount_description

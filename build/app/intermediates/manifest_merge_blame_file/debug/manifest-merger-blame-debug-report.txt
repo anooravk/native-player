@@ -1,145 +1,156 @@
 1<?xml version="1.0" encoding="utf-8"?>
 2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-3    package="com.example.flios"
+3    package="com.app.nativeplayer"
 4    android:versionCode="1"
 5    android:versionName="1.0.0" >
 6
 7    <uses-sdk
 8        android:minSdkVersion="16"
-9        android:targetSdkVersion="30" />
+9        android:targetSdkVersion="33" />
 10    <!--
 11         Flutter needs it to communicate with the running application
 12         to allow setting breakpoints, to provide hot reload, etc.
 13    -->
 14    <uses-permission android:name="android.permission.INTERNET" />
-14-->/Users/mac/Downloads/ima-sdk-demo-flutter 2/android/app/src/main/AndroidManifest.xml:8:5-67
-14-->/Users/mac/Downloads/ima-sdk-demo-flutter 2/android/app/src/main/AndroidManifest.xml:8:22-64
+14-->/Users/mac/StudioProjects/fixes/native-player/android/app/src/main/AndroidManifest.xml:8:5-67
+14-->/Users/mac/StudioProjects/fixes/native-player/android/app/src/main/AndroidManifest.xml:8:22-64
 15    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-15-->/Users/mac/Downloads/ima-sdk-demo-flutter 2/android/app/src/debug/AndroidManifest.xml:7:5-78
-15-->/Users/mac/Downloads/ima-sdk-demo-flutter 2/android/app/src/debug/AndroidManifest.xml:7:22-76
+15-->/Users/mac/StudioProjects/fixes/native-player/android/app/src/main/AndroidManifest.xml:9:5-78
+15-->/Users/mac/StudioProjects/fixes/native-player/android/app/src/main/AndroidManifest.xml:9:22-76
 16    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-16-->/Users/mac/Downloads/ima-sdk-demo-flutter 2/android/app/src/debug/AndroidManifest.xml:8:5-75
-16-->/Users/mac/Downloads/ima-sdk-demo-flutter 2/android/app/src/debug/AndroidManifest.xml:8:22-73
+16-->/Users/mac/StudioProjects/fixes/native-player/android/app/src/debug/AndroidManifest.xml:8:5-75
+16-->/Users/mac/StudioProjects/fixes/native-player/android/app/src/debug/AndroidManifest.xml:8:22-73
 17    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
-17-->/Users/mac/Downloads/ima-sdk-demo-flutter 2/android/app/src/main/AndroidManifest.xml:10:5-79
-17-->/Users/mac/Downloads/ima-sdk-demo-flutter 2/android/app/src/main/AndroidManifest.xml:10:22-76
+17-->/Users/mac/StudioProjects/fixes/native-player/android/app/src/main/AndroidManifest.xml:12:5-79
+17-->/Users/mac/StudioProjects/fixes/native-player/android/app/src/main/AndroidManifest.xml:12:22-76
 18
-19    <application
-20        android:name="android.app.Application"
-21        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-21-->[androidx.core:core:1.7.0] /Users/mac/.gradle/caches/transforms-3/9d7d44f810fb0f13682e999f8deadc88/transformed/core-1.7.0/AndroidManifest.xml:24:18-86
-22        android:debuggable="true"
-23        android:hardwareAccelerated="true"
-24        android:icon="@mipmap/ic_launcher"
-25        android:label="flios"
-26        android:usesCleartextTraffic="true" >
-27
-28        <!-- <application -->
-29        <!-- android:name=".MainActivity" -->
-30        <!-- android:label="IMADemo" -->
-31        <!-- android:icon="@mipmap/ic_launcher"> -->
-32
-33        <activity
-34            android:name="com.example.flios.MainActivity"
-35            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
-36            android:exported="true"
-37            android:hardwareAccelerated="true"
-38            android:launchMode="singleTop"
-39            android:theme="@style/LaunchTheme"
-40            android:windowSoftInputMode="adjustResize" >
-41
-42            <!--
-43                 Specifies an Android theme to apply to this Activity as soon as
-44                 the Android process has started. This theme is visible to the user
-45                 while the Flutter UI initializes. After that, this theme continues
-46                 to determine the Window background behind the Flutter UI.
-47            -->
-48            <meta-data
-49                android:name="io.flutter.embedding.android.NormalTheme"
-50                android:resource="@style/NormalTheme" />
-51            <!--
-52                 Displays an Android View that continues showing the launch screen
-53                 Drawable until Flutter paints its first frame, then this splash
-54                 screen fades out. A splash screen is useful to avoid any visual
-55                 gap between the end of Android's launch screen and the painting of
-56                 Flutter's first frame.
-57            -->
-58            <meta-data
-59                android:name="io.flutter.embedding.android.SplashScreenDrawable"
-60                android:resource="@drawable/launch_background" />
-61
-62            <intent-filter>
-63                <action android:name="android.intent.action.MAIN" />
-64
-65                <category android:name="android.intent.category.LAUNCHER" />
-66            </intent-filter>
-67        </activity>
-68        <!--
-69             Don't delete the meta-data below.
-70             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
-71        -->
-72        <meta-data
-73            android:name="com.google.android.gms.ads.APPLICATION_ID"
-74            android:value="ca-app-pub-3940256099942544~3347511713" />
-75        <meta-data
-76            android:name="flutterEmbedding"
-77            android:value="2" />
+19    <permission
+19-->[androidx.core:core:1.9.0] /Users/mac/.gradle/caches/transforms-3/52216ec92facccabb202343dd537cea6/transformed/core-1.9.0/AndroidManifest.xml:22:5-24:47
+20        android:name="com.app.nativeplayer.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+20-->[androidx.core:core:1.9.0] /Users/mac/.gradle/caches/transforms-3/52216ec92facccabb202343dd537cea6/transformed/core-1.9.0/AndroidManifest.xml:23:9-81
+21        android:protectionLevel="signature" />
+21-->[androidx.core:core:1.9.0] /Users/mac/.gradle/caches/transforms-3/52216ec92facccabb202343dd537cea6/transformed/core-1.9.0/AndroidManifest.xml:24:9-44
+22
+23    <uses-permission android:name="com.app.nativeplayer.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+23-->[androidx.core:core:1.9.0] /Users/mac/.gradle/caches/transforms-3/52216ec92facccabb202343dd537cea6/transformed/core-1.9.0/AndroidManifest.xml:26:5-97
+23-->[androidx.core:core:1.9.0] /Users/mac/.gradle/caches/transforms-3/52216ec92facccabb202343dd537cea6/transformed/core-1.9.0/AndroidManifest.xml:26:22-94
+24
+25    <application
+26        android:name="android.app.Application"
+27        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+27-->[androidx.core:core:1.9.0] /Users/mac/.gradle/caches/transforms-3/52216ec92facccabb202343dd537cea6/transformed/core-1.9.0/AndroidManifest.xml:28:18-86
+28        android:debuggable="true"
+29        android:hardwareAccelerated="true"
+30        android:icon="@mipmap/ic_launcher"
+31        android:label="nativeplayer"
+32        android:usesCleartextTraffic="true" >
+33
+34        <!-- <application -->
+35        <!-- android:name=".MainActivity" -->
+36        <!-- android:label="IMADemo" -->
+37        <!-- android:icon="@mipmap/ic_launcher"> -->
+38
+39        <activity
+40            android:name="com.app.nativeplayer.MainActivity"
+41            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+42            android:exported="true"
+43            android:hardwareAccelerated="true"
+44            android:launchMode="singleTop"
+45            android:theme="@style/LaunchTheme"
+46            android:windowSoftInputMode="adjustResize" >
+47
+48            <!--
+49                 Specifies an Android theme to apply to this Activity as soon as
+50                 the Android process has started. This theme is visible to the user
+51                 while the Flutter UI initializes. After that, this theme continues
+52                 to determine the Window background behind the Flutter UI.
+53            -->
+54            <meta-data
+55                android:name="io.flutter.embedding.android.NormalTheme"
+56                android:resource="@style/NormalTheme" />
+57            <!--
+58                 Displays an Android View that continues showing the launch screen
+59                 Drawable until Flutter paints its first frame, then this splash
+60                 screen fades out. A splash screen is useful to avoid any visual
+61                 gap between the end of Android's launch screen and the painting of
+62                 Flutter's first frame.
+63            -->
+64            <meta-data
+65                android:name="io.flutter.embedding.android.SplashScreenDrawable"
+66                android:resource="@drawable/launch_background" />
+67
+68            <intent-filter>
+69                <action android:name="android.intent.action.MAIN" />
+70
+71                <category android:name="android.intent.category.LAUNCHER" />
+72            </intent-filter>
+73        </activity>
+74        <!--
+75             Don't delete the meta-data below.
+76             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
+77        -->
 78        <meta-data
-78-->[com.google.android.exoplayer:extension-ima:2.18.7] /Users/mac/.gradle/caches/transforms-3/3d4715f5efbdf05f62cfa921769dbe14/transformed/jetified-extension-ima-2.18.7/AndroidManifest.xml:25:9-27:36
-79            android:name="com.google.android.gms.ads.AD_MANAGER_APP"
-79-->[com.google.android.exoplayer:extension-ima:2.18.7] /Users/mac/.gradle/caches/transforms-3/3d4715f5efbdf05f62cfa921769dbe14/transformed/jetified-extension-ima-2.18.7/AndroidManifest.xml:26:13-69
-80            android:value="true" />
-80-->[com.google.android.exoplayer:extension-ima:2.18.7] /Users/mac/.gradle/caches/transforms-3/3d4715f5efbdf05f62cfa921769dbe14/transformed/jetified-extension-ima-2.18.7/AndroidManifest.xml:27:13-33
+79            android:name="com.google.android.gms.ads.APPLICATION_ID"
+80            android:value="ca-app-pub-3940256099942544~3347511713" />
 81        <meta-data
-81-->[com.google.android.exoplayer:extension-ima:2.18.7] /Users/mac/.gradle/caches/transforms-3/3d4715f5efbdf05f62cfa921769dbe14/transformed/jetified-extension-ima-2.18.7/AndroidManifest.xml:28:9-30:69
-82            android:name="com.google.android.gms.version"
-82-->[com.google.android.exoplayer:extension-ima:2.18.7] /Users/mac/.gradle/caches/transforms-3/3d4715f5efbdf05f62cfa921769dbe14/transformed/jetified-extension-ima-2.18.7/AndroidManifest.xml:29:13-58
-83            android:value="@integer/google_play_services_version" />
-83-->[com.google.android.exoplayer:extension-ima:2.18.7] /Users/mac/.gradle/caches/transforms-3/3d4715f5efbdf05f62cfa921769dbe14/transformed/jetified-extension-ima-2.18.7/AndroidManifest.xml:30:13-66
-84
-85        <uses-library
-85-->[androidx.window:window:1.0.0] /Users/mac/.gradle/caches/transforms-3/11357441e07ade20e702a53cb93f0212/transformed/jetified-window-1.0.0/AndroidManifest.xml:25:9-27:40
-86            android:name="androidx.window.extensions"
-86-->[androidx.window:window:1.0.0] /Users/mac/.gradle/caches/transforms-3/11357441e07ade20e702a53cb93f0212/transformed/jetified-window-1.0.0/AndroidManifest.xml:26:13-54
-87            android:required="false" />
-87-->[androidx.window:window:1.0.0] /Users/mac/.gradle/caches/transforms-3/11357441e07ade20e702a53cb93f0212/transformed/jetified-window-1.0.0/AndroidManifest.xml:27:13-37
-88        <uses-library
-88-->[androidx.window:window:1.0.0] /Users/mac/.gradle/caches/transforms-3/11357441e07ade20e702a53cb93f0212/transformed/jetified-window-1.0.0/AndroidManifest.xml:28:9-30:40
-89            android:name="androidx.window.sidecar"
-89-->[androidx.window:window:1.0.0] /Users/mac/.gradle/caches/transforms-3/11357441e07ade20e702a53cb93f0212/transformed/jetified-window-1.0.0/AndroidManifest.xml:29:13-51
-90            android:required="false" />
-90-->[androidx.window:window:1.0.0] /Users/mac/.gradle/caches/transforms-3/11357441e07ade20e702a53cb93f0212/transformed/jetified-window-1.0.0/AndroidManifest.xml:30:13-37
-91
-92        <activity
-92-->[com.google.android.gms:play-services-base:18.1.0] /Users/mac/.gradle/caches/transforms-3/32d8cb3341cc7c7a46d3868f8dcecdf7/transformed/jetified-play-services-base-18.1.0/AndroidManifest.xml:20:9-22:45
-93            android:name="com.google.android.gms.common.api.GoogleApiActivity"
-93-->[com.google.android.gms:play-services-base:18.1.0] /Users/mac/.gradle/caches/transforms-3/32d8cb3341cc7c7a46d3868f8dcecdf7/transformed/jetified-play-services-base-18.1.0/AndroidManifest.xml:20:19-85
-94            android:exported="false"
-94-->[com.google.android.gms:play-services-base:18.1.0] /Users/mac/.gradle/caches/transforms-3/32d8cb3341cc7c7a46d3868f8dcecdf7/transformed/jetified-play-services-base-18.1.0/AndroidManifest.xml:22:19-43
-95            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-95-->[com.google.android.gms:play-services-base:18.1.0] /Users/mac/.gradle/caches/transforms-3/32d8cb3341cc7c7a46d3868f8dcecdf7/transformed/jetified-play-services-base-18.1.0/AndroidManifest.xml:21:19-78
-96
-97        <provider
-97-->[androidx.emoji2:emoji2:1.0.0] /Users/mac/.gradle/caches/transforms-3/03510c6466980ae6d3856e050cc5cb4a/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:26:9-34:20
-98            android:name="androidx.startup.InitializationProvider"
-98-->[androidx.emoji2:emoji2:1.0.0] /Users/mac/.gradle/caches/transforms-3/03510c6466980ae6d3856e050cc5cb4a/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:27:13-67
-99            android:authorities="com.example.flios.androidx-startup"
-99-->[androidx.emoji2:emoji2:1.0.0] /Users/mac/.gradle/caches/transforms-3/03510c6466980ae6d3856e050cc5cb4a/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:28:13-68
-100            android:exported="false" >
-100-->[androidx.emoji2:emoji2:1.0.0] /Users/mac/.gradle/caches/transforms-3/03510c6466980ae6d3856e050cc5cb4a/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:29:13-37
-101            <meta-data
-101-->[androidx.emoji2:emoji2:1.0.0] /Users/mac/.gradle/caches/transforms-3/03510c6466980ae6d3856e050cc5cb4a/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:31:13-33:52
-102                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-102-->[androidx.emoji2:emoji2:1.0.0] /Users/mac/.gradle/caches/transforms-3/03510c6466980ae6d3856e050cc5cb4a/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:32:17-75
-103                android:value="androidx.startup" />
-103-->[androidx.emoji2:emoji2:1.0.0] /Users/mac/.gradle/caches/transforms-3/03510c6466980ae6d3856e050cc5cb4a/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:33:17-49
-104            <meta-data
-104-->[androidx.lifecycle:lifecycle-process:2.4.0] /Users/mac/.gradle/caches/transforms-3/b34c7723574d06cb26c40d466d9ae421/transformed/jetified-lifecycle-process-2.4.0/AndroidManifest.xml:31:13-33:52
-105                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-105-->[androidx.lifecycle:lifecycle-process:2.4.0] /Users/mac/.gradle/caches/transforms-3/b34c7723574d06cb26c40d466d9ae421/transformed/jetified-lifecycle-process-2.4.0/AndroidManifest.xml:32:17-78
-106                android:value="androidx.startup" />
-106-->[androidx.lifecycle:lifecycle-process:2.4.0] /Users/mac/.gradle/caches/transforms-3/b34c7723574d06cb26c40d466d9ae421/transformed/jetified-lifecycle-process-2.4.0/AndroidManifest.xml:33:17-49
-107        </provider>
-108    </application>
-109
-110</manifest>
+82            android:name="flutterEmbedding"
+83            android:value="2" />
+84        <meta-data
+84-->[com.google.android.exoplayer:extension-ima:2.18.7] /Users/mac/.gradle/caches/transforms-3/6deec430a9d6c506557b6ef4518d0e48/transformed/jetified-extension-ima-2.18.7/AndroidManifest.xml:25:9-27:36
+85            android:name="com.google.android.gms.ads.AD_MANAGER_APP"
+85-->[com.google.android.exoplayer:extension-ima:2.18.7] /Users/mac/.gradle/caches/transforms-3/6deec430a9d6c506557b6ef4518d0e48/transformed/jetified-extension-ima-2.18.7/AndroidManifest.xml:26:13-69
+86            android:value="true" />
+86-->[com.google.android.exoplayer:extension-ima:2.18.7] /Users/mac/.gradle/caches/transforms-3/6deec430a9d6c506557b6ef4518d0e48/transformed/jetified-extension-ima-2.18.7/AndroidManifest.xml:27:13-33
+87        <meta-data
+87-->[com.google.android.exoplayer:extension-ima:2.18.7] /Users/mac/.gradle/caches/transforms-3/6deec430a9d6c506557b6ef4518d0e48/transformed/jetified-extension-ima-2.18.7/AndroidManifest.xml:28:9-30:69
+88            android:name="com.google.android.gms.version"
+88-->[com.google.android.exoplayer:extension-ima:2.18.7] /Users/mac/.gradle/caches/transforms-3/6deec430a9d6c506557b6ef4518d0e48/transformed/jetified-extension-ima-2.18.7/AndroidManifest.xml:29:13-58
+89            android:value="@integer/google_play_services_version" />
+89-->[com.google.android.exoplayer:extension-ima:2.18.7] /Users/mac/.gradle/caches/transforms-3/6deec430a9d6c506557b6ef4518d0e48/transformed/jetified-extension-ima-2.18.7/AndroidManifest.xml:30:13-66
+90
+91        <activity
+91-->[com.google.android.gms:play-services-base:18.1.0] /Users/mac/.gradle/caches/transforms-3/2f2a3c57f662f90c3a1fe8f76b283667/transformed/jetified-play-services-base-18.1.0/AndroidManifest.xml:20:9-22:45
+92            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+92-->[com.google.android.gms:play-services-base:18.1.0] /Users/mac/.gradle/caches/transforms-3/2f2a3c57f662f90c3a1fe8f76b283667/transformed/jetified-play-services-base-18.1.0/AndroidManifest.xml:20:19-85
+93            android:exported="false"
+93-->[com.google.android.gms:play-services-base:18.1.0] /Users/mac/.gradle/caches/transforms-3/2f2a3c57f662f90c3a1fe8f76b283667/transformed/jetified-play-services-base-18.1.0/AndroidManifest.xml:22:19-43
+94            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+94-->[com.google.android.gms:play-services-base:18.1.0] /Users/mac/.gradle/caches/transforms-3/2f2a3c57f662f90c3a1fe8f76b283667/transformed/jetified-play-services-base-18.1.0/AndroidManifest.xml:21:19-78
+95
+96        <uses-library
+96-->[androidx.window:window:1.0.0] /Users/mac/.gradle/caches/transforms-3/d7f42f99299c188f53a47de1a5b8756c/transformed/jetified-window-1.0.0/AndroidManifest.xml:25:9-27:40
+97            android:name="androidx.window.extensions"
+97-->[androidx.window:window:1.0.0] /Users/mac/.gradle/caches/transforms-3/d7f42f99299c188f53a47de1a5b8756c/transformed/jetified-window-1.0.0/AndroidManifest.xml:26:13-54
+98            android:required="false" />
+98-->[androidx.window:window:1.0.0] /Users/mac/.gradle/caches/transforms-3/d7f42f99299c188f53a47de1a5b8756c/transformed/jetified-window-1.0.0/AndroidManifest.xml:27:13-37
+99        <uses-library
+99-->[androidx.window:window:1.0.0] /Users/mac/.gradle/caches/transforms-3/d7f42f99299c188f53a47de1a5b8756c/transformed/jetified-window-1.0.0/AndroidManifest.xml:28:9-30:40
+100            android:name="androidx.window.sidecar"
+100-->[androidx.window:window:1.0.0] /Users/mac/.gradle/caches/transforms-3/d7f42f99299c188f53a47de1a5b8756c/transformed/jetified-window-1.0.0/AndroidManifest.xml:29:13-51
+101            android:required="false" />
+101-->[androidx.window:window:1.0.0] /Users/mac/.gradle/caches/transforms-3/d7f42f99299c188f53a47de1a5b8756c/transformed/jetified-window-1.0.0/AndroidManifest.xml:30:13-37
+102
+103        <provider
+103-->[androidx.emoji2:emoji2:1.2.0] /Users/mac/.gradle/caches/transforms-3/d96498b729de992e220e7bf9cb398328/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:24:9-32:20
+104            android:name="androidx.startup.InitializationProvider"
+104-->[androidx.emoji2:emoji2:1.2.0] /Users/mac/.gradle/caches/transforms-3/d96498b729de992e220e7bf9cb398328/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:25:13-67
+105            android:authorities="com.app.nativeplayer.androidx-startup"
+105-->[androidx.emoji2:emoji2:1.2.0] /Users/mac/.gradle/caches/transforms-3/d96498b729de992e220e7bf9cb398328/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:26:13-68
+106            android:exported="false" >
+106-->[androidx.emoji2:emoji2:1.2.0] /Users/mac/.gradle/caches/transforms-3/d96498b729de992e220e7bf9cb398328/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:27:13-37
+107            <meta-data
+107-->[androidx.emoji2:emoji2:1.2.0] /Users/mac/.gradle/caches/transforms-3/d96498b729de992e220e7bf9cb398328/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:29:13-31:52
+108                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+108-->[androidx.emoji2:emoji2:1.2.0] /Users/mac/.gradle/caches/transforms-3/d96498b729de992e220e7bf9cb398328/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:30:17-75
+109                android:value="androidx.startup" />
+109-->[androidx.emoji2:emoji2:1.2.0] /Users/mac/.gradle/caches/transforms-3/d96498b729de992e220e7bf9cb398328/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:31:17-49
+110            <meta-data
+110-->[androidx.lifecycle:lifecycle-process:2.4.1] /Users/mac/.gradle/caches/transforms-3/9c0f48822fd4ea8e4db1a8ac3652e555/transformed/jetified-lifecycle-process-2.4.1/AndroidManifest.xml:31:13-33:52
+111                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+111-->[androidx.lifecycle:lifecycle-process:2.4.1] /Users/mac/.gradle/caches/transforms-3/9c0f48822fd4ea8e4db1a8ac3652e555/transformed/jetified-lifecycle-process-2.4.1/AndroidManifest.xml:32:17-78
+112                android:value="androidx.startup" />
+112-->[androidx.lifecycle:lifecycle-process:2.4.1] /Users/mac/.gradle/caches/transforms-3/9c0f48822fd4ea8e4db1a8ac3652e555/transformed/jetified-lifecycle-process-2.4.1/AndroidManifest.xml:33:17-49
+113        </provider>
+114    </application>
+115
+116</manifest>

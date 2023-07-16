@@ -4,7 +4,7 @@
     "type": "MERGED_MANIFESTS",
     "kind": "Directory"
   },
-  "applicationId": "com.example.flios",
+  "applicationId": "com.app.nativeplayer",
   "variantName": "debug",
   "elements": [
     {
